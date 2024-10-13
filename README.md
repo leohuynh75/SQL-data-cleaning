@@ -1,5 +1,5 @@
 # SQL-data-cleaning
-** The result: **
+** The original dataset: **
 |full_name|age|martial_status|email|phone|full_address|job_title|membership_date|
 |---------|---|--------------|-----|-----|------------|---------|---------------|
 |addie lush|40|married|alush0@shutterfly.com|254-389-8708|3226 Eastlawn Pass,Temple,Texas|Assistant Professor|7/31/2013|
@@ -2012,4 +2012,55 @@
 |Phillip Piddick|40|married|ppiddickrp@hibu.com|512-886-9162|767 Burning Wood Parkway,Austin,Texas|Research Assistant III|10/18/2016|
 |ALLIX LAWRIE|50|divorced|alawrierq@wsj.com|515-452-7385|162 Orin Way,Des Moines,Iowa|Nurse Practicioner|3/19/2021|
 |rockey gimbrett|26|married|rgimbrettrr@google.ca|713-436-2805|77 Dorton Crossing,Houston,Texas|Account Executive|4/25/2015|
+
+# Copy the table
+## Create a new table for cleaning
+Let's generate a new table where we can manipulate and restructure the data without modifying the original dataset.
+```sql
+CREATE TABLE club_member_info_cleaned (
+		full_name VARCHAR(50),
+		age INTEGER,
+		marital_status VARCHAR(50),
+		email VARCHAR(50),
+		phone VARCHAR(50),
+		full_address VARCHAR(50),
+		job_title VARCHAR(50),
+		membership_date VARCHAR(50)
+);
+```
+## Copy all values from original table
+```sql
+INSERT INTO club_member_info_cleaned
+SELECT * FROM club_member_info_csv;
+```
+# Clean data and document it
+There are some problems with the data:
+- Inconsistent letter case
+- Age out of realistic range
+- Leading and trailing whitespaces
+  
+So we need to solve all of them one by one, firstly:
+## Solving incosisitent letter case
+```sql
+update club_member_info_cleaned 
+set full_name = upper(full_name);
+```
+## Remove ages out of realistic range
+In the original dataset, there are some ages over 200 years old
+![](https://github.com/leohuynh75/SQL-data-cleaning/blob/main/result_2.png)
+
+We need to remove all of them by the below code:
+```sql
+delete from club_member_info_cleaned 
+where age < 18 or age > 70;
+```
+## Solving leading and trailing whitespaces
+```sql
+update club_member_info_cleaned 
+set full_name = trim(full_name);
+```
+Here is the final result after cleaning
+![](https://github.com/leohuynh75/SQL-data-cleaning/blob/main/result_1.png)
+
+The full_name column has a consistent format without any leading or trailing whitespace. The age range is now from 18  to 70.
 
