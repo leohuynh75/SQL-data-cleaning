@@ -1,4 +1,6 @@
 # SQL-data-cleaning
+![](https://github.com/leohuynh75/SQL-data-cleaning/blob/main/cleaning.jpg)
+
 ** The original dataset: **
 |full_name|age|martial_status|email|phone|full_address|job_title|membership_date|
 |---------|---|--------------|-----|-----|------------|---------|---------------|
